@@ -1,0 +1,147 @@
+.wrap-container .header .is-left .title_sub {
+  /* margin-left: 12px;
+    padding-left: 10px;
+    border-left: 1px solid #ccc; */
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+.wrap-container .header .layer-user li {
+  display: block;
+}
+.wrap-container .header .layer-user li span {
+  font-size: 13px;
+}
+.wrap-container .nav .nav-footer {
+  height: 210px;
+}
+.jconfirm .jconfirm-box {
+  max-width: 1000px;
+}
+.jconfirm-content {
+  /* overflow: scroll; */
+  max-height: 600px;
+}
+.list-num > li {
+  margin-bottom: 10px;
+  font-size: 13px;
+  line-height: 18px;
+  word-break: break-all;
+}
+/* .ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
+    white-space: break-spaces;
+} */
+.ui-jqgrid .ui-jqgrid-htable th div {
+  white-space: normal !important;
+}
+a,
+a:focus,
+a:active,
+a:hover,
+a:visited {
+  color: #528ecc;
+  text-decoration: none; /* underline; */
+  outline: 0 none;
+}
+
+.wrap-container .contents {
+  padding: 16px 25px;
+}
+.wrap-container .nav .nav-main ul.nav-menu > li {
+  padding: 10px 0;
+}
+.wrap-container .header .layer-user li {
+  padding: 10px 0;
+}
+h3 {
+  font-size: 14px;
+  padding-top: 5px;
+}
+.sw-tabs > li {
+  height: 35px;
+}
+.ui-jqgrid .ui-jqgrid-htable th {
+  border-right: 1px solid #ccc;
+}
+.ui-jqgrid tr.jqgrow td {
+  border-right: 1px solid #e5e5e5;
+}
+.ui-jqgrid .ui-jqgrid-bdiv .nodata {
+  /*적용*/
+  height: 80px;
+  font-weight: normal;
+}
+
+table.tbl-time thead th {
+  height: 35px;
+  background-color: #e6ebf2;
+  font-size: 12px;
+}
+table.tbl-time tbody th,
+table.tbl-time tbody td {
+  height: 30px;
+  font-size: 13px;
+  text-align: center;
+}
+.sw-tabs {
+  border-bottom: 1px solid #114886;
+}
+.list-num > li {
+  margin-bottom: 3px;
+}
+.list-num > ul,
+ol {
+  margin-left: 10px;
+}
+.ui-jqgrid .ui-pg-input {
+  width: 25px;
+  height: 20px;
+  font-size: 12px;
+}
+.ui-pg-table {
+  width: 200px;
+}
+.ui-jqgrid .ui-jqgrid-sortable {
+  cursor: default;
+}
+#gview_gridBasket .ui-jqgrid-bdiv {
+  overflow-x: hidden;
+}
+/* .ui-jqgrid tr.jqgrow td { text-overflow: ellipsis;-o-text-overflow: ellipsis;-webkit-line-clamp: 2; } */
+
+table.tbl-time thead th {
+  height: 35px;
+  background-color: #e6ebf2;
+  font-size: 12px;
+}
+table.tbl-time tbody th,
+table.tbl-time tbody td {
+  height: 30px;
+  font-size: 13px;
+  text-align: center;
+}
+.sw-tabs {
+  border-bottom: 1px solid #114886;
+}
+.list-num > li {
+  margin-bottom: 3px;
+}
+.list-num > ul,
+ol {
+  margin-left: 10px;
+}
+.ui-jqgrid .ui-pg-input {
+  width: 25px;
+  height: 20px;
+  font-size: 12px;
+}
+.ui-pg-table {
+  width: 200px;
+}
+.ui-jqgrid .ui-jqgrid-sortable {
+  cursor: default;
+}
+#gview_gridBasket .ui-jqgrid-bdiv {
+  overflow-x: hidden;
+}
+/* .ui-jqgrid tr.jqgrow td { text-overflow: ellipsis;-o-text-overflow: ellipsis;-webkit-line-clamp: 2; } */
