@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-
-import "../styles/sugang.css";
-import "../styles/jqgrid.css";
+import React, { useContext, useState } from "react";
 
 import Header from "../components/Header";
 import Navigator from "../components/Navigator";
+import SearchItem from "../components/SearchItem";
 import { incompleteFunctionClick } from "../utils/message";
+import { courseStateContext, courseDispatchContext } from "../App";
+import BasketItem from "../components/BasketItem";
 
 function Basket() {
   /* 탭 이동 */
@@ -15,32 +15,34 @@ function Basket() {
   };
 
   /* 장바구니 조회 */
-  const [lctrName, setLctrName] = useState("");
+  const [lctrName, setLctrName] = useState(""); // 사용자 입력 과목
+  const [searchResult, setSearchResult] = useState(null); // 조회 결과
   const [isTableVisible, setIsTableVisible] = useState(false);
-  // 조회
-  function fnSearch() {
-    // 입력된 과목 검사
-    var inputValue = lctrName.replace(/\s/g, ""); // 공백 제거
-    // 조회된 과목 조회
-    if (inputValue === "창의와소통") {
-      setIsTableVisible(true);
-    } else {
-      setIsTableVisible(false);
-    }
-  }
-
+  const { courseData } = useContext(courseStateContext); // 과목 데이터
+  const { onBasket } = useContext(courseDispatchContext);
   /* 장바구니 담기 */
   const addCart = (name) => {
     if (window.confirm(`${name}을 장바구니에 담으시겠습니까?`)) {
-      // 확인을 눌렀을 때
-      document.getElementById("btn-add").textContent = "완료";
-      document.getElementById("btn-add").style.backgroundColor = "white";
-      document.getElementById("btn-add").style.color = "red";
-      document.getElementById("btn-add").style.border = "none";
+      onBasket(name);
     } else {
-      // 취소를 눌렀을 때
     }
     return;
+  };
+
+  /* 과목 조회 */
+  const fnSearch = (e) => {
+    e.preventDefault();
+    var formattedName = lctrName.replace(/\s/g, ""); // 공백 제거
+    const foundCourse = courseData.find(
+      (course) => course.cName === formattedName
+    );
+
+    if (foundCourse) {
+      setIsTableVisible(true);
+      setSearchResult(foundCourse.cName);
+    } else {
+      alert("올바른 과목명을 입력해주세요.");
+    }
   };
 
   return (
@@ -140,7 +142,7 @@ function Basket() {
                     }}
                   >
                     ❗ 장바구니 담기가 가능한 과목 목록은 아래와 같습니다.
-                    (2023-10-06 기준){" "}
+                    (2023-10-09 기준){" "}
                   </div>
                   <div
                     style={{
@@ -162,7 +164,58 @@ function Basket() {
                         marginLeft: "20px",
                       }}
                     >
-                      창의와 소통
+                      글쓰기
+                    </li>
+                    <li
+                      style={{
+                        fontFamily: "Nanum Gothic Coding",
+                        fontSize: "14px",
+                        marginBottom: "5px",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      창의와소통
+                    </li>
+                    <li
+                      style={{
+                        fontFamily: "Nanum Gothic Coding",
+                        fontSize: "14px",
+                        marginBottom: "5px",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      앙트프레너십시대의회계
+                    </li>
+                    <li
+                      style={{
+                        fontFamily: "Nanum Gothic Coding",
+                        fontSize: "14px",
+                        marginBottom: "5px",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      COMMUNICATION IN ENGLISH
+                    </li>
+
+                    <li
+                      style={{
+                        fontFamily: "Nanum Gothic Coding",
+                        fontSize: "14px",
+                        marginBottom: "5px",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      AI시대문제해결을위한디자인사고
+                    </li>
+                    <li
+                      style={{
+                        fontFamily: "Nanum Gothic Coding",
+                        fontSize: "14px",
+                        marginBottom: "5px",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      컴퓨팅적사고와인공지능리터러시
                     </li>
                   </ul>
                 </div>
@@ -173,12 +226,7 @@ function Basket() {
               className={activeTab === "tab_02" ? "is-active" : ""}
             >
               <div className="form-search">
-                <form
-                  name="sForm"
-                  id="sForm"
-                  method="post"
-                  onSubmit="return false"
-                >
+                <form name="sForm" id="sForm" method="post">
                   <table>
                     <colgroup>
                       <col width="80px" />
@@ -290,7 +338,7 @@ function Basket() {
                         </td>
                         <td>
                           <button
-                            type="button"
+                            type="submit"
                             id="btnSearch"
                             className="btn-sub"
                             onClick={fnSearch}
@@ -811,184 +859,14 @@ function Basket() {
                             style={{ width: "1221px" }}
                           >
                             <tbody className="ui-sortable">
-                              <tr
-                                role="row"
-                                tabIndex={-1}
-                                className="ui-widget-content jqgrow ui-row-ltr"
-                              >
-                                <td
-                                  role="gridcell"
-                                  title="장바구니"
-                                  style={{
-                                    width: "65px",
-                                    textAlign: "center",
-                                    verticalAlign: "middle",
+                              {isTableVisible && searchResult && (
+                                <SearchItem
+                                  name={searchResult}
+                                  onclick={() => {
+                                    addCart(searchResult);
                                   }}
-                                >
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      height: "100%",
-                                    }}
-                                  >
-                                    <button
-                                      id="btn-add"
-                                      className="btn-main btn-sm"
-                                      onClick={() => addCart("창의와 소통")}
-                                    >
-                                      담기
-                                    </button>
-                                  </div>
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  title="예비과목"
-                                  style={{
-                                    width: "65px",
-                                    textAlign: "center",
-                                    verticalAlign: "middle",
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      height: "100%",
-                                    }}
-                                  >
-                                    <button
-                                      className="btn-main btn-sm"
-                                      onClick={incompleteFunctionClick}
-                                    >
-                                      추가
-                                    </button>
-                                  </div>
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  title="대학"
-                                  aria-describedby="gridBasket_shyrnm"
-                                  style={{ width: "75px" }}
-                                >
-                                  대학(전체)
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  style={{ width: "55px" }}
-                                  title="개설학과"
-                                  aria-describedby="gridBasket_shyrnm"
                                 />
-                                <td
-                                  role="gridcell"
-                                  style={{ width: "47px" }}
-                                  title="학년"
-                                  aria-describedby="gridBasket_shyrnm"
-                                >
-                                  1
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  style={{ width: "50px" }}
-                                  title="교양"
-                                  aria-describedby="gridBasket_pobtnm"
-                                >
-                                  교양
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  style={{ width: "80px" }}
-                                  title="대학"
-                                  aria-describedby="gridBasket_sbjtclss"
-                                >
-                                  49949-01
-                                </td>
-                                <td
-                                  id="gridBasket_sbjtclss"
-                                  role="gridcell"
-                                  style={{
-                                    textAlign: "left",
-                                    cursor: "pointer",
-                                    color: "blue",
-                                    width: "142px",
-                                  }}
-                                  title="창의와소통"
-                                  aria-describedby="gridBasket_kornm"
-                                >
-                                  창의와소통
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  style={{ width: "55px" }}
-                                  title="2-2"
-                                  aria-describedby="gridBasket_pntnm"
-                                >
-                                  2-2
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  style={{ width: "55px" }}
-                                  title="김교수"
-                                  aria-describedby="gridBasket_profnm"
-                                >
-                                  김교수
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  style={{ width: "36px" }}
-                                  aria-describedby="gridBasket_clsefgnm"
-                                >
-                                  &nbsp;
-                                </td>
-                                <td
-                                  role="gridcell"
-                                  style={{ textAlign: "left", width: "189px" }}
-                                  title="수3,4303관(법학관)803호 <강의실>"
-                                  aria-describedby="gridBasket_ltbdrm"
-                                >
-                                  수3,4
-                                  <br />
-                                  303관(법학관) 803호 &lt;강의실&gt;
-                                </td>
-                                <td
-                                  id="jqgh_gridBasket_flx"
-                                  role="gridcell"
-                                  style={{ width: "50px" }}
-                                  title="강의유형"
-                                  aria-describedby="gridBasket_cntcapa2"
-                                >
-                                  &nbsp;
-                                </td>
-                                <td
-                                  id="jqgh_gridBasket_flx"
-                                  role="gridcell"
-                                  style={{ width: "50px" }}
-                                  title="유연학기"
-                                  aria-describedby="gridBasket_cntcapa2"
-                                >
-                                  &nbsp;
-                                </td>
-                                <td
-                                  id="jqgh_gridBasket_flx"
-                                  role="gridcell"
-                                  style={{ width: "50px" }}
-                                  title="신청인원"
-                                  aria-describedby="gridBasket_cntcapa2"
-                                >
-                                  0
-                                </td>
-                                <td
-                                  id="gridBasket_retakenm"
-                                  role="gridcell"
-                                  style={{ width: "150px" }}
-                                  title="비고"
-                                  aria-describedby="gridBasket_cntcapa2"
-                                >
-                                  공통교양[[수강대상:]]
-                                </td>
-                              </tr>
+                              )}
                             </tbody>
                           </table>
                         </div>
@@ -1036,13 +914,19 @@ function Basket() {
                   <small id="meta_1">
                     【{" "}
                     <span className="item">
-                      과목수 : <em>1</em>
+                      과목수 :{" "}
+                      <em>
+                        {courseData.filter((it) => it.cType === 1).length}
+                      </em>
                     </span>
                     &nbsp;&nbsp;
                     <span className="item">
-                      신청학점 : <em>2</em>
+                      신청학점 :{" "}
+                      <em>
+                        {2 * courseData.filter((it) => it.cType === 1).length}
+                      </em>
                     </span>
-                    】
+                    &nbsp; 】
                   </small>
                   <span className="txt-blue" style={{ marginLeft: "20px" }}>
                     ▣{" "}
@@ -1061,7 +945,7 @@ function Basket() {
                     <span className="item">
                       신청학점 : <em>0</em>
                     </span>
-                    】
+                    &nbsp; 】
                   </small>
                 </h3>
                 <span style={{ float: "right" }} className="txt-red">
@@ -1587,243 +1471,7 @@ function Basket() {
                       className="ui-jqgrid-bdiv"
                       style={{ height: "428px", width: "1239px" }}
                     >
-                      <div style={{ position: "relative" }}>
-                        <div />
-                        <table
-                          id="gridBasket"
-                          tabIndex={0}
-                          cellSpacing={0}
-                          cellPadding={0}
-                          border={0}
-                          role="grid"
-                          aria-multiselectable="false"
-                          aria-labelledby="gbox_gridBasket"
-                          className="ui-jqgrid-btable"
-                          style={{ width: "1221px" }}
-                        >
-                          <tbody className="ui-sortable">
-                            <tr
-                              className="jqgfirstrow"
-                              role="row"
-                              style={{ height: "auto" }}
-                            >
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "36px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "71px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "80px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "142px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "47px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "47px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "55px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "55px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "36px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "189px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "47px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "47px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "47px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "47px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "71px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "47px" }}
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ height: "0px", width: "105px" }}
-                              />
-                            </tr>
-                            <tr
-                              role="row"
-                              id={1}
-                              tabIndex={-1}
-                              className="ui-widget-content jqgrow ui-row-ltr"
-                            >
-                              <td
-                                role="gridcell"
-                                style={{
-                                  cursor: "move",
-                                  background: "#f4cbdf",
-                                  width: "36px",
-                                }}
-                                title
-                                aria-describedby="gridBasket_Drag"
-                              >
-                                <img
-                                  src="images/icon-menu.png"
-                                  style={{ width: "15px", height: "10px" }}
-                                />
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="장바구니"
-                                aria-describedby="gridBasket_apply_nm"
-                              >
-                                <p className="txt-red">장바구니</p>
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="49949-01"
-                                aria-describedby="gridBasket_sbjtclss"
-                              >
-                                49949-01
-                              </td>
-                              <td
-                                role="gridcell"
-                                style={{
-                                  textAlign: "left",
-                                  cursor: "pointer",
-                                  color: "blue",
-                                }}
-                                title="창의와소통"
-                                aria-describedby="gridBasket_kornm"
-                              >
-                                창의와소통
-                              </td>
-                              <td
-                                role="gridcell"
-                                title={1}
-                                aria-describedby="gridBasket_shyrnm"
-                              >
-                                1
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="교양"
-                                aria-describedby="gridBasket_pobtnm"
-                              >
-                                교양
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="2-2"
-                                aria-describedby="gridBasket_pntnm"
-                              >
-                                2-2
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="김교수"
-                                aria-describedby="gridBasket_profnm"
-                              >
-                                김교수
-                              </td>
-                              <td
-                                role="gridcell"
-                                aria-describedby="gridBasket_clsefgnm"
-                              />
-                              <td
-                                role="gridcell"
-                                style={{ textAlign: "left" }}
-                                title="수3,4303관(법학관)803호 <강의실>"
-                                aria-describedby="gridBasket_ltbdrm"
-                              >
-                                수3,4
-                                <br />
-                                303관(법학관) 803호 &lt;강의실&gt;
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="1(60)"
-                                aria-describedby="gridBasket_cntcapa1"
-                              >
-                                <b>
-                                  1<br />
-                                  (60)
-                                </b>
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="0(0)"
-                                aria-describedby="gridBasket_cntcapa2"
-                              >
-                                0<br />
-                                (0)
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="0(0)"
-                                aria-describedby="gridBasket_cntcapa3"
-                              >
-                                0<br />
-                                (0)
-                              </td>
-                              <td
-                                role="gridcell"
-                                title="0(0)"
-                                aria-describedby="gridBasket_cntcapa4"
-                              >
-                                0<br />
-                                (0)
-                              </td>
-                              <td
-                                role="gridcell"
-                                title
-                                aria-describedby="gridBasket_type_nm"
-                              >
-                                &nbsp;
-                              </td>
-                              <td
-                                role="gridcell"
-                                title
-                                aria-describedby="gridBasket_flx"
-                              >
-                                &nbsp;
-                              </td>
-                              <td
-                                role="gridcell"
-                                title
-                                aria-describedby="gridBasket_retakenm"
-                              >
-                                &nbsp;
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                      <BasketItem />
                     </div>
                   </div>
                   <div className="ui-jqgrid-resize-mark" id="rs_mgridBasket">

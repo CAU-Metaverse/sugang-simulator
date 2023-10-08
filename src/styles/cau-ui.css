@@ -3297,7 +3297,7 @@ body.main {
   min-height: 780px;
   max-height: 100%;
   height: auto;
-  padding: 120px 0;
+  padding: 110px 0;
   box-sizing: border-box;
 }
 .login > .login-container > main {
@@ -3311,13 +3311,13 @@ body.main {
   box-sizing: border-box;
 }
 .login > .login-container > main .login-left {
-  width: 500px;
+  width: 580px;
   background: #fff;
   text-align: center;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 .login > .login-container > main .login-left h1 {
-  margin: 55px 0px 20px;
+  margin: 55px 0px 15px;
   font-size: 25px;
   font-weight: 800;
   font-family: "Nanum Gothic Coding";
@@ -3328,9 +3328,9 @@ body.main {
   font-family: "Nanum Gothic Coding";
   font-weight: 600;
   margin-top: 0px;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-bottom: 45px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 40px;
 }
 .login > .login-container > main .login-left .wrap-lang {
   margin-bottom: 40px;
@@ -3349,7 +3349,7 @@ body.main {
   padding-left: 15px;
 }
 .login > .login-container > main .login-left .login-box button.btn-login {
-  width: 90%;
+  width: 80%;
   height: 50px;
   margin-top: 20px;
   background-color: #2155a4;

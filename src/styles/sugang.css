@@ -145,3 +145,10 @@ ol {
   overflow-x: hidden;
 }
 /* .ui-jqgrid tr.jqgrow td { text-overflow: ellipsis;-o-text-overflow: ellipsis;-webkit-line-clamp: 2; } */
+
+/* 선택(수강신청, 장바구니)완료된 버튼 색상 */
+.btn-done {
+  background-color: white;
+  color: red;
+  border: none;
+}
