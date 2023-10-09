@@ -1,20 +1,18 @@
 import React from "react";
 import "../styles/sugang.css";
 import "../styles/jqgrid.css";
+import { useNavigate } from "react-router-dom";
+import { incompleteFunctionClick } from "../utils/message";
 
 const Navigator = (props) => {
+  const navigate = useNavigate();
+
   return (
     <div className="nav">
       <div className="nav-header">
-        <span onclick className="is-active">
-          한글
-        </span>
-        <span onclick className>
-          ENG
-        </span>
-        <span onclick className>
-          中文
-        </span>
+        <span className="is-active">한글</span>
+        <span className>ENG</span>
+        <span className>中文</span>
       </div>
       <div className="nav-main">
         <ul className="nav-menu">
@@ -24,32 +22,48 @@ const Navigator = (props) => {
             </span>
             <ul style={{ display: "block" }}>
               <li>
-                <span onclick id="menu_notice" className>
+                <span
+                  onClick={incompleteFunctionClick}
+                  id="menu_notice"
+                  className
+                >
                   시스템 유의사항
                 </span>
               </li>
               <li>
-                <span onclick id="menu_sugang" style={{ color: props.sugang }}>
+                <span
+                  onClick={() => {
+                    navigate("/sugang");
+                  }}
+                  id="menu_sugang"
+                  style={{ color: props.sugang }}
+                >
                   수강신청
                 </span>
               </li>
               <li>
-                <span onclick id="menu_basket" style={{ color: props.basket }}>
+                <span
+                  onClick={() => {
+                    navigate("/basket");
+                  }}
+                  id="menu_basket"
+                  style={{ color: props.basket }}
+                >
                   장바구니
                 </span>
               </li>
               <li>
-                <span onclick id="menu_lectTime">
+                <span onClick={incompleteFunctionClick} id="menu_lectTime">
                   강의시간표 조회
                 </span>
               </li>
               <li>
-                <span onclick id="menu_timetable">
+                <span onClick={incompleteFunctionClick} id="menu_timetable">
                   개인시간표
                 </span>
               </li>
               <li>
-                <span onclick id="menu_similar">
+                <span onClick={incompleteFunctionClick} id="menu_similar">
                   동일대체과목조회
                 </span>
               </li>
