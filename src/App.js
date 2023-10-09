@@ -26,7 +26,6 @@ const reducer = (oldState, action) => {
     default:
       return action.data;
   }
-  localStorage.setItem("courses", JSON.stringify(newState));
   return newState;
 };
 
@@ -34,12 +33,19 @@ export const courseStateContext = React.createContext(); // 과목 데이터 공
 export const courseDispatchContext = React.createContext(); // 수강 관련 함수 공급
 
 function App() {
-  // 과목 데이터
-  const [courseData, dispatch] = useReducer(reducer, []);
   useEffect(() => {
-    localStorage.setItem("courses", JSON.stringify(courseList)); // 로컬 스토리지 등록
-    dispatch({ data: JSON.parse(localStorage.getItem("courses")) });
+    localStorage.setItem("courses", JSON.stringify(courseList)); // 로컬 스토리지 등록(초기화)
   }, []);
+
+  // 과목 데이터
+  const [courseData, dispatch] = useReducer(
+    reducer,
+    JSON.parse(localStorage.getItem("courses")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("courses", JSON.stringify(courseData));
+  }, [courseData]); // courseData를 의존성 배열에 추가
 
   // 장바구니 담기
   const onBasket = (name) => {
