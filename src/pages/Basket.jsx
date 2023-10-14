@@ -33,13 +33,23 @@ function Basket() {
   const fnSearch = (e) => {
     e.preventDefault();
     var formattedName = lctrName.replace(/\s/g, ""); // 공백 제거
-    const foundCourse = courseData.find(
-      (course) => course.cName === formattedName
-    );
 
-    if (foundCourse) {
+    // 영어 과목 검사
+    const regex = /^[a-zA-Z]+$/;
+    if (regex.test(formattedName)) {
+      formattedName = formattedName.toUpperCase();
+    }
+
+    let foundCourseList = []; // 조회된 과목명 리스트
+    for (let i = 0; i < courseData.length; i++) {
+      if (courseData[i].cName.includes(formattedName)) {
+        foundCourseList = [...foundCourseList, courseData[i]];
+      }
+    }
+
+    if (foundCourseList.length >= 1) {
       setIsTableVisible(true);
-      setSearchResult(foundCourse.cName);
+      setSearchResult(foundCourseList.map((it) => it.cName));
     } else {
       alert("올바른 과목명을 입력해주세요.");
     }
@@ -860,14 +870,16 @@ function Basket() {
                             style={{ width: "1221px" }}
                           >
                             <tbody className="ui-sortable">
-                              {isTableVisible && searchResult && (
-                                <SearchItem
-                                  name={searchResult}
-                                  onclick={() => {
-                                    addCart(searchResult);
-                                  }}
-                                />
-                              )}
+                              {isTableVisible &&
+                                searchResult &&
+                                searchResult.map((it) => (
+                                  <SearchItem
+                                    name={it}
+                                    onclick={() => {
+                                      addCart(searchResult);
+                                    }}
+                                  />
+                                ))}
                             </tbody>
                           </table>
                         </div>
