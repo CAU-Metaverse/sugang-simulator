@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Navigator from "../components/Navigator";
 import SearchItem from "../components/SearchItem";
 import { incompleteFunctionClick } from "../utils/message";
-import { courseStateContext, courseDispatchContext } from "../App";
+import { courseStateContext } from "../App";
 import BasketItem from "../components/BasketItem";
 
 function Basket() {
@@ -19,15 +19,6 @@ function Basket() {
   const [searchResult, setSearchResult] = useState(null); // 조회 결과
   const [isTableVisible, setIsTableVisible] = useState(false);
   const { courseData } = useContext(courseStateContext); // 과목 데이터
-  const { onBasket } = useContext(courseDispatchContext);
-  /* 장바구니 담기 */
-  const addCart = (name) => {
-    if (window.confirm(`${name}을 장바구니에 담으시겠습니까?`)) {
-      onBasket(name);
-    } else {
-    }
-    return;
-  };
 
   /* 과목 조회 */
   const fnSearch = (e) => {
@@ -136,8 +127,8 @@ function Basket() {
                         fontSize: "14px",
                       }}
                     >
-                      사이트를 벗어나도 장바구니 목록 및 수강신청 내역은
-                      유지됩니다.
+                      사이트를 벗어나면 장바구니 목록 및 수강신청 내역은
+                      사라집니다.
                     </li>
                   </ol>
                   <br />
@@ -871,14 +862,9 @@ function Basket() {
                           >
                             <tbody className="ui-sortable">
                               {isTableVisible &&
-                                searchResult &&
+                                searchResult.length > 0 &&
                                 searchResult.map((it) => (
-                                  <SearchItem
-                                    name={it}
-                                    onclick={() => {
-                                      addCart(searchResult);
-                                    }}
-                                  />
+                                  <SearchItem name={it} />
                                 ))}
                             </tbody>
                           </table>

@@ -1,11 +1,21 @@
 import React, { useContext } from "react";
 import { incompleteFunctionClick } from "../utils/message";
-import { courseStateContext } from "../App";
+import { courseStateContext, courseDispatchContext } from "../App";
 import Button from "./Button";
 
-function SearchItem({ name, onclick }) {
+function SearchItem({ name }) {
+  const { onBasket } = useContext(courseDispatchContext);
   const { courseData } = useContext(courseStateContext);
   const course = courseData.filter((it) => it.cName === name)[0]; // 조회된 과목 데이터
+
+  /* 장바구니 담기 */
+  const addCart = (name) => {
+    if (window.confirm(`${name}을 장바구니에 담으시겠습니까?`)) {
+      onBasket(name);
+    } else {
+    }
+    return;
+  };
 
   return (
     course && (
@@ -35,7 +45,9 @@ function SearchItem({ name, onclick }) {
               page={"basket"}
               type={course.cType}
               text={"담기"}
-              onClick={onclick}
+              onClick={() => {
+                addCart(course.cName);
+              }}
             ></Button>
           </div>
         </td>
