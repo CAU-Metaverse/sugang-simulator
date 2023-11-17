@@ -22,9 +22,9 @@ function Header() {
           <span className="split" /> 학년(가진급학년) <em>1(1)</em>
           <span className="split" /> 제한학점 <em>20</em> (기본: 20 / 이월: 0)
         </div>
-        <div className="timer" id="timer">
-          <span id="timerRemain">30:00</span>
-          <button type="button" id="btnTimer" onClick={incompleteFunctionClick}>
+        <div className="timer">
+          <span>30:00</span>
+          <button type="button" onClick={incompleteFunctionClick}>
             연장하기
           </button>
         </div>
